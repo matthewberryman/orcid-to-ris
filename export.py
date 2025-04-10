@@ -33,26 +33,11 @@ def format_ris(work, put_code):
     # print(work)
     pub_date = work.get("publication-date", {})
 
-    date_str = ""
+    year = ""
 
     if pub_date is not None:
         year_info = pub_date.get("year")
         year = year_info.get("value", "") if isinstance(year_info, dict) else ""
-
-        month_info = pub_date.get("month")
-        month = month_info.get("value", "") if isinstance(month_info, dict) else ""
-
-        day_info = pub_date.get("day")
-        day = day_info.get("value", "") if isinstance(day_info, dict) else ""
-        
-        # Format the date string
-        date_str = year
-        if month:
-            date_str += f"/{month.zfill(2)}"
-            if day:
-                date_str += f"/{day.zfill(2)}"
-
-
 
     # Defensive handling of missing journal title
     journal = (
@@ -89,8 +74,8 @@ def format_ris(work, put_code):
     ris.append(f"TI  - {title}")
     if journal:
         ris.append(f"JO  - {journal}")
-    if date_str:
-        ris.append(f"PY  - {date_str}")
+    if year:
+        ris.append(f"PY  - {year}")
     if doi:
         ris.append(f"DO  - {doi}")
     ris.append(f"ID  - {put_code}")
